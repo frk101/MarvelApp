@@ -1,6 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Text, TouchableOpacity, View, Image, ScrollView } from "react-native";
-
+import {
+  Text,
+  TouchableOpacity,
+  View,
+  Image,
+  ScrollView,
+  ActivityIndicator,
+  Linking,
+} from "react-native";
 
 import { useSelector, useDispatch } from "react-redux";
 import { useRoute, useNavigation } from "@react-navigation/native";
@@ -11,88 +18,124 @@ import {
   FontAwesome5,
   MaterialIcons,
 } from "react-native-vector-icons";
-import { getCharacterDetail } from "../../business/actions/character";
+import {
+  getCharacterDetail,
+} from "../../business/actions/character";
 import style from "./styles";
 const index = () => {
   const dispatch = useDispatch();
-  const navigation=useNavigation()
+  const navigation = useNavigation();
   const route = useRoute();
-   const {
-     getCharacterDetailLoading,
-     getCharacterDetailResult,
-     getCharacterDetailFail,
-   } = useSelector((x) => x.character);
+  const {
+    getCharacterDetailLoading,
+    getCharacterDetailResult,
+    getCharacterDetailFail,
+   
+  } = useSelector((x) => x.character);
 
-   useEffect(() => {
-     _getCharacterDetail();
-     return () => {};
-   }, []);
+  useEffect(() => {
+    _getCharacterDetail();
+    return () => {};
+  }, []);
 
-   const _getCharacterDetail = async () => {
-     dispatch(getCharacterDetail(route.params))
-   };
-   console.log(getCharacterDetailResult.name);
+  const _getCharacterDetail = async () => {
+    dispatch(getCharacterDetail(route.params));
+  };
+  
   return (
-    <View style={{ flex: 1, backgroundColor: "#E8EAED" }}>
-      <Image  style={style.image} />
-      <TouchableOpacity
-        onPress={() => navigation.goBack()}
-        style={style.buttonContainer}
-      >
-        <Ionicons name="arrow-back-outline" size={18} color="#ffffff" />
-      </TouchableOpacity>
-      <ScrollView>
-        <Text style={style.name}>{route.params.name}</Text>
-        <View style={style.listContainer}>
-          <Text style={style.baslik}>
-            Cinsiyet:
-            <Text style={style.title}>
-             dsa
-            </Text>
-          </Text>
-          <FontAwesome
-            name={"male" }
-            size={30}
-          
-          />
-        </View>
-        <View style={style.listContainer}>
-          <Text style={style.baslik}>
-            Lokasyon:
-            <Text style={style.title}>
-              das
-            </Text>
-          </Text>
-          <MaterialIcons
-            name="location-history"
-            size={30}
-           
-          />
-        </View>
-        <View style={style.listContainer}>
-          <Text style={style.baslik}>
-            Statu:
-            <Text style={style.title}>dassa</Text>
-          </Text>
-          <Zocial name="statusnet" size={30}  />
-        </View>
-        <View style={style.listContainer}>
-          <Text style={style.baslik}>
-            Çeşit:
-            <Text style={style.title}>{route.params.species}</Text>
-          </Text>
-          <FontAwesome5 name="ghost" size={30}  />
-        </View>
-        <View style={style.listContainer}>
-          <Text style={style.baslik}>
-            Köken:
-            <Text style={style.title}>dsa</Text>
-          </Text>
+    <>
+      {getCharacterDetailLoading && !getCharacterDetailFail ? (
+        <ActivityIndicator color={"#1A237E"} size={"large"} />
+      ) : (
+        <View style={{ flex: 1, backgroundColor: "#E8EAED" }}>
+          <ScrollView>
+            <Image
+              style={style.image}
+              source={{
+                uri:
+                  getCharacterDetailResult &&
+                  getCharacterDetailResult.thumbnail &&
+                  getCharacterDetailResult.thumbnail.path +
+                    "/landscape_xlarge.jpg",
+              }}
+            />
+            <TouchableOpacity
+              onPress={() => navigation.goBack()}
+              style={style.buttonContainer}
+            >
+              <Ionicons name="arrow-back-outline" size={18} color="#ffffff" />
+            </TouchableOpacity>
 
-          <Ionicons name="location" size={30}  />
+            <Text style={style.name}>{getCharacterDetailResult.name}</Text>
+            <View style={style.listContainer}>
+              <Text style={style.title}>
+                {getCharacterDetailResult.description}
+              </Text>
+            </View>
+            <TouchableOpacity
+              style={style.listContainer}
+              onPress={() => navigation.navigate("CharacterOrComicScreen",route.params)}
+            >
+              <Text style={style.marvelTitle}>
+                Toplam Comic Sayısı :
+                <Text style={style.title}>
+                  {""}{" "}
+                  {getCharacterDetailResult &&
+                    getCharacterDetailResult.comics &&
+                    getCharacterDetailResult.comics.available}
+                </Text>
+              </Text>
+            </TouchableOpacity>
+            <View style={style.listContainer}>
+              <Text style={style.baslik}>
+                Toplam Story Sayısı :
+                <Text style={style.title}>
+                  {""}{" "}
+                  {getCharacterDetailResult &&
+                    getCharacterDetailResult.stories &&
+                    getCharacterDetailResult.stories.available}
+                </Text>
+              </Text>
+            </View>
+            <View style={style.listContainer}>
+              <Text style={style.baslik}>
+                Toplam Series Sayısı :
+                <Text style={style.title}>
+                  {""}{" "}
+                  {getCharacterDetailResult &&
+                    getCharacterDetailResult.series &&
+                    getCharacterDetailResult.series.available}
+                </Text>
+              </Text>
+            </View>
+            <View style={style.listContainer}>
+              <Text style={style.baslik}>
+                Toplam Events Sayısı :
+                <Text style={style.title}>
+                  {""}{" "}
+                  {getCharacterDetailResult &&
+                    getCharacterDetailResult.events &&
+                    getCharacterDetailResult.events.available}
+                </Text>
+              </Text>
+            </View>
+            <TouchableOpacity
+              style={style.listContainer}
+              onPress={() =>
+                Linking.openURL(
+                  getCharacterDetailResult &&
+                    getCharacterDetailResult.urls &&
+                    getCharacterDetailResult.urls[1] &&
+                    getCharacterDetailResult.urls[1].url
+                )
+              }
+            >
+              <Text style={style.marvelTitle}>Marvel Profil</Text>
+            </TouchableOpacity>
+          </ScrollView>
         </View>
-      </ScrollView>
-    </View>
+      )}
+    </>
   );
 };
 export default index;

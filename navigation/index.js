@@ -8,6 +8,7 @@ import CharacterScreen from "../screens/CharactersScreen";
 import CharacterDetailScreen from "../screens/CharactersDetailScreen";
 import ComicsScreen from "../screens/ComicsScreen";
 import ComicsDetailScreen from "../screens/ComicsDetailScreen";
+import CharacterOrComicScreen from "../screens/CharacterOrComicScreen";
 
 const Tab = createBottomTabNavigator();
 
@@ -110,6 +111,10 @@ export default function Navigator() {
         <Stack.Screen
           name="ComicsDetailScreen"
           component={ComicsDetailScreen}
+        />
+        <Stack.Screen
+          name="CharacterOrComicScreen"
+          component={CharacterOrComicScreen}
         />
       </Stack.Navigator>
     </NavigationContainer>

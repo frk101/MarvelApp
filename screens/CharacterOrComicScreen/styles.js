@@ -8,6 +8,7 @@ export default StyleSheet.create({
   tasksWrapper: {
     paddingTop: 80,
     paddingHorizontal: 20,
+    marginBottom:20
   },
   sectionTitle: {
     fontSize: 24,
@@ -47,7 +48,7 @@ export default StyleSheet.create({
   item: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between",
+   
   },
   containerList: {
     backgroundColor: "#FFF",
@@ -74,10 +75,9 @@ export default StyleSheet.create({
   },
   itemTexts: {
     fontWeight: "bold",
-    
   },
   itemEpisode: {
-color: "gray",
+    color: "gray",
     marginVertical: 8,
   },
   circular: {

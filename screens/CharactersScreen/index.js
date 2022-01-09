@@ -35,6 +35,7 @@ const index = () => {
   const _getCharacterList = async () => {
     dispatch(getCharacterList());
   };
+
   return (
     <View style={styles.container}>
       <View style={styles.tasksWrapper}>
@@ -52,13 +53,17 @@ const index = () => {
       ) : (
         <FlatList
           showsVerticalScrollIndicator={false}
-          data={getCharacterListResult.filter((x) =>
-            searchValue.length == 0
-              ? true
-              : x.name
-                  .toLocaleLowerCase()
-                  .indexOf(searchValue.toLocaleLowerCase()) > -1
-          )}
+          data={
+            getCharacterListResult &&
+            getCharacterListResult.data &&
+            getCharacterListResult.data.results.filter((x) =>
+              searchValue.length == 0
+                ? true
+                : x.name
+                    .toLocaleLowerCase()
+                    .indexOf(searchValue.toLocaleLowerCase()) > -1
+            )
+          }
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => <CharacterList item={item} />}
         />

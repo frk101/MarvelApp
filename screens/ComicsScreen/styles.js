@@ -47,7 +47,7 @@ export default StyleSheet.create({
   item: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between",
+   
   },
   containerList: {
     backgroundColor: "#FFF",
@@ -70,14 +70,14 @@ export default StyleSheet.create({
   },
   itemText: {
     fontWeight: "bold",
-    marginLeft: 20,
+    marginHorizontal: 10,
+    textAlign:'center'
   },
   itemTexts: {
     fontWeight: "bold",
-    
   },
   itemEpisode: {
-color: "gray",
+    color: "gray",
     marginVertical: 8,
   },
   circular: {
